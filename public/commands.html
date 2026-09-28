@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<!--
+  Function file for the ribbon commands (manifest: FunctionFile / Commands.Url).
+  Outlook loads it invisibly and calls the functions registered in commands.js.
+  It is plain HTML + JS on purpose: the functions must be registered as soon as
+  the page loads, without waiting for React/Next.js to hydrate.
+-->
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <script src="commands.js"></script>
+  </head>
+  <body></body>
+</html>

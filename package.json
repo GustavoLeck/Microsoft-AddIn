@@ -1,0 +1,32 @@
+{
+  "name": "beinc-addin",
+  "version": "1.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "start": "node scripts/dev.mjs",
+    "build": "next build && node scripts/build-manifest.mjs",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "validate": "office-addin-manifest validate manifest.xml",
+    "certs:install": "office-addin-dev-certs install"
+  },
+  "dependencies": {
+    "@fluentui/react-components": "^9.74.9",
+    "@fluentui/react-icons": "^2.0.343",
+    "next": "16.3.6",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/office-js": "^1.0.610",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.6",
+    "office-addin-dev-certs": "^3.0.1",
+    "office-addin-manifest": "^3.0.1",
+    "typescript": "^5"
+  }
+}
