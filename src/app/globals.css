@@ -1,3 +1,16 @@
+/*
+ * Tailwind CSS v4 is configured here (there is no tailwind.config.js).
+ *
+ * `important` makes every utility !important. Fluent UI's makeStyles (Griffel)
+ * injects its CSS outside any cascade layer, and unlayered CSS always beats
+ * Tailwind's layered CSS: without it, `className="p-4"` on a Fluent component
+ * (or next to a makeStyles class) would silently lose.
+ */
+@import "tailwindcss" important;
+
+/* `dark:` follows the add-in's theme (Office theme, else system): useDarkMode() sets .dark on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 html,
 body {
   margin: 0;

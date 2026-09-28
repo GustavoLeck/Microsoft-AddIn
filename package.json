@@ -19,6 +19,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^20",
     "@types/office-js": "^1.0.610",
     "@types/react": "^19",
@@ -27,6 +28,7 @@
     "eslint-config-next": "16.3.6",
     "office-addin-dev-certs": "^3.0.1",
     "office-addin-manifest": "^3.0.1",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5"
   }
 }

@@ -11,7 +11,8 @@ export async function getItemSubject(): Promise<string> {
 
   return new Promise<string>((resolve, reject) => {
     subject.getAsync((result) => {
-      if (result.status === Office.AsyncResultStatus.Succeeded) resolve(result.value);
+      if (result.status === Office.AsyncResultStatus.Succeeded)
+        resolve(result.value);
       else reject(new Error(result.error.message));
     });
   });

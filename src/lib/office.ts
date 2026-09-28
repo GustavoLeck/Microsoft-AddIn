@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 export type OfficeState =
   /** Waiting for Office.onReady. */
@@ -45,23 +45,36 @@ function isOfficeThemeDark(): boolean | undefined {
   }
 }
 
+const DARK_SCHEME = "(prefers-color-scheme: dark)";
+
+function subscribeToSystemScheme(onChange: () => void) {
+  const media = window.matchMedia?.(DARK_SCHEME);
+  media?.addEventListener("change", onChange);
+  return () => media?.removeEventListener("change", onChange);
+}
+
 /**
  * Whether the task pane should use the dark theme: follows the Office theme
  * when available, otherwise the system/WebView color scheme.
+ * Also mirrors it as the `dark` class on <html>, which drives Tailwind's `dark:` variant.
  */
 export function useDarkMode(officeReady: boolean): boolean {
-  const [systemDark, setSystemDark] = useState(
-    () => window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false,
+  // The page is pre-rendered on the server (no window, so light theme) and hydration must render
+  // the same: the system scheme only kicks in right after it (server snapshot = false). Reading it
+  // in the first render leaves Fluent stuck on the light theme, because FluentProvider reuses the
+  // pre-rendered theme <style> as is and only rewrites it when the theme changes.
+  const systemDark = useSyncExternalStore(
+    subscribeToSystemScheme,
+    () => window.matchMedia?.(DARK_SCHEME).matches ?? false,
+    () => false,
   );
 
-  useEffect(() => {
-    const media = window.matchMedia?.("(prefers-color-scheme: dark)");
-    if (!media) return;
-    const onChange = (event: MediaQueryListEvent) => setSystemDark(event.matches);
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
-  }, []);
-
   const officeDark = officeReady ? isOfficeThemeDark() : undefined;
-  return officeDark ?? systemDark;
+  const dark = officeDark ?? systemDark;
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
+  return dark;
 }
